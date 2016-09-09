@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FrontEnd"
         mc:Ignorable="d"
-        Title="IntelAgent" Height="600" Width="300">
-    
+        Title="IntelAgent" Height="360" Width="360">
+
     <Grid>
-        
-        <ListBox x:Name="conversationBox" HorizontalAlignment="Center" Height="255" VerticalAlignment="Top" Width="260"/>
-        <TextBox x:Name="userInputTextBox" HorizontalAlignment="Center" Height="25" TextWrapping="Wrap" VerticalContentAlignment="Center" VerticalAlignment="Top" Width="260" Margin="0,270,0,0" KeyDown="userInputTextBox_KeyDown"/>
+
+        <ListBox x:Name="conversationBox" HorizontalAlignment="Center" Height="255" VerticalAlignment="Top" Width="300" Margin="20,10,20,0"/>
+        <TextBox x:Name="userInputTextBox" HorizontalAlignment="Center" Height="25" TextWrapping="Wrap" VerticalContentAlignment="Center" VerticalAlignment="Top" Width="250" Margin="31,280,31,0" KeyDown="userInputTextBox_KeyDown"/>
 
     </Grid>
 </Window>
