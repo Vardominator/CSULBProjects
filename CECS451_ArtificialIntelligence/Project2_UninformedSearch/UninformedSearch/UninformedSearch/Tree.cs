@@ -56,21 +56,35 @@ namespace UninformedSearch
         public void BreadthFirstSearch(Node<T> start, Node<T> goal)
         {
             Queue<Node<T>> queue = new Queue<Node<T>>();
-            Console.WriteLine(start.Value);
+            //Console.WriteLine(start.Value);
 
             queue.Enqueue(start);
 
+            OpenedNodes.Add(start);
+            Print(OpenedNodes);
+            Console.Write("; ");
+            Print(ClosedNodes);
+            Console.WriteLine();
+
             while(queue.Peek() != goal)
             {
+
                 Node<T> current = queue.Dequeue();
+                OpenedNodes.Remove(current);
+                ClosedNodes.Add(current);
 
                 foreach (var successor in current.Successors)
                 {
-
-                    Console.WriteLine(successor.Value);
                     queue.Enqueue(successor);
-
+                    OpenedNodes.Add(successor);
                 }
+
+                Print(OpenedNodes);
+                Console.Write("; ");
+                ClosedNodes.Reverse();
+                Print(ClosedNodes);
+                Console.WriteLine();
+                ClosedNodes.Reverse();
 
             }
 
