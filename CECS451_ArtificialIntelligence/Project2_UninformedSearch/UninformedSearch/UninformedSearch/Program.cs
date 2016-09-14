@@ -42,7 +42,7 @@ namespace UninformedSearch
 
 
             tree.BreadthFirstSearch(start, goal);
-
+            //tree.DepthFirstSearch(start, goal);
         }
     }
 }

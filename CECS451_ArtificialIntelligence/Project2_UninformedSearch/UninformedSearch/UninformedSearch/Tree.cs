@@ -34,20 +34,22 @@ namespace UninformedSearch
             
             if (start != goal)
             {
+
                 OpenedNodes.Add(start);
-                Print(OpenedNodes);
-                Console.Write("; ");
-                Print(ClosedNodes);
-                ClosedNodes.Add(start);
-                Console.WriteLine();
+                Console.Write($"open = {Print(OpenedNodes)}; ");
+                Console.WriteLine($"closed = {Print(ClosedNodes)}");
 
                 foreach (Node<T> successor in start.Successors)
                 {
+
                     DepthFirstSearch(successor, goal);
-                    OpenedNodes.Add(start);
                 }
 
-                OpenedNodes.Remove(start);
+                OpenedNodes.RemoveAt(OpenedNodes.Count - 1);
+                ClosedNodes.Insert(0, start);
+
+                Console.Write($"open = {Print(OpenedNodes)}; ");
+                Console.WriteLine($"closed = {Print(ClosedNodes)}");
 
             }
 
@@ -56,51 +58,61 @@ namespace UninformedSearch
         public void BreadthFirstSearch(Node<T> start, Node<T> goal)
         {
             Queue<Node<T>> queue = new Queue<Node<T>>();
-            //Console.WriteLine(start.Value);
-
             queue.Enqueue(start);
 
             OpenedNodes.Add(start);
-            Print(OpenedNodes);
-            Console.Write("; ");
-            Print(ClosedNodes);
-            Console.WriteLine();
+            Console.Write($"open = {Print(OpenedNodes)}; ");
+            Console.Write($"closed = {Print(ClosedNodes)}\n");
 
             while(queue.Peek() != goal)
             {
 
                 Node<T> current = queue.Dequeue();
                 OpenedNodes.Remove(current);
-                ClosedNodes.Add(current);
+
+                if (!ClosedNodes.Contains(current))
+                {
+                    ClosedNodes.Insert(0, current);
+                }
 
                 foreach (var successor in current.Successors)
                 {
+
                     queue.Enqueue(successor);
-                    OpenedNodes.Add(successor);
+
+                    if (!OpenedNodes.Contains(successor))
+                    {
+                        OpenedNodes.Add(successor);
+                    }
+
                 }
 
-                Print(OpenedNodes);
-                Console.Write("; ");
-                ClosedNodes.Reverse();
-                Print(ClosedNodes);
-                Console.WriteLine();
-                ClosedNodes.Reverse();
+                Console.Write($"open = {Print(OpenedNodes)}; ");
+                Console.WriteLine($"closed = {Print(ClosedNodes)}");
 
             }
 
         }
 
-        public void Print(List<Node<T>> openedNodes)
+        public string Print(List<Node<T>> openedNodes)
         {
 
-            Console.Write($"[");
+            StringBuilder sb = new StringBuilder();
+            sb.Append("[");
 
             foreach (var node in openedNodes)
             {
-                Console.Write($"{node.Value} ");
+                sb.Append($"{node.Value},");
             }
 
-            Console.Write($"]");
+            if (sb.Length > 1)
+            {
+                sb.Remove(sb.Length - 1, 1);
+            }
+ 
+            sb.Append("]");
+
+            return sb.ToString();
 
         }
 
