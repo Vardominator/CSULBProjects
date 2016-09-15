@@ -94,22 +94,30 @@ namespace UninformedSearch
             queue.Enqueue(initialPair);
 
             attemptedFrontiers.Add(StringRepresentation(InitialGrid));
-            
-            while(queue.Count > 0)
+
+            int numberOfAttempts = 0;
+            string goalString = StringRepresentation(Goal);
+
+            do
             {
+
+                numberOfAttempts++;
 
                 GridVisitedPair currentPair = queue.Dequeue();
                 Point currentPoint = currentPair.ZeroPoint;
-                
-                if(CheckGoalReached(currentPair.Grid, Goal))
+
+                string currentGridString = StringRepresentation(currentPair.Grid);
+
+                if (currentGridString == goalString)
                 {
                     PrintGrid(currentPair.Grid);
+                    Console.WriteLine($"\nNumber of attemps: {numberOfAttempts}");
                     return;
                 }
 
                 foreach (Point neighborPoint in GetNeighbors(currentPair.ZeroPoint))
                 {
-                    
+
                     // Copy grid
                     int[,] newGrid = new int[Dimension, Dimension];
                     Array.Copy(currentPair.Grid, newGrid, Dimension * Dimension);
@@ -119,18 +127,86 @@ namespace UninformedSearch
                     newGrid[neighborPoint.X, neighborPoint.Y] = temp;
                     GridVisitedPair newPair = new GridVisitedPair(newGrid, neighborPoint);
                     newPair.PreviousPoint = currentPoint;
-                    
+
                     if (!attemptedFrontiers.Contains(StringRepresentation(newGrid)))
                     {
                         queue.Enqueue(newPair);
                         attemptedFrontiers.Add(StringRepresentation(newGrid));
                     }
-                    
+
                 }
 
+            } while (queue.Count > 0);
+
+            Console.WriteLine("This puzzle is not solvable. Try again.");
+
+        }
+
+
+        public void DepthFirstSearch()
+        {
+
+            PrintGrid(InitialGrid);
+
+            if (!Solvable(InitialGrid))
+            {
+                Console.WriteLine("This puzzle is not solvable. Try again.");
+                return;
             }
 
-           
+            HashSet<string> attemptedFrontiers = new HashSet<string>();
+
+            Stack<GridVisitedPair> stack = new Stack<GridVisitedPair>();
+
+            GridVisitedPair initialPair = new GridVisitedPair(InitialGrid, InitialZeroPoint);
+            stack.Push(initialPair);
+
+            attemptedFrontiers.Add(StringRepresentation(InitialGrid));
+
+            int numberOfAttempts = 0;
+            string goalString = StringRepresentation(Goal);
+
+            do
+            {
+
+                numberOfAttempts++;
+
+                GridVisitedPair currentPair = stack.Pop();
+                Point currentPoint = currentPair.ZeroPoint;
+
+                string currentGridString = StringRepresentation(currentPair.Grid);
+
+                if (currentGridString == goalString)
+                {
+                    PrintGrid(currentPair.Grid);
+                    Console.WriteLine($"\nNumber of attemps: {numberOfAttempts}");
+                    return;
+                }
+
+                foreach (Point neighborPoint in GetNeighbors(currentPair.ZeroPoint))
+                {
+
+                    // Copy grid
+                    int[,] newGrid = new int[Dimension, Dimension];
+                    Array.Copy(currentPair.Grid, newGrid, Dimension * Dimension);
+
+                    int temp = newGrid[currentPoint.X, currentPoint.Y];
+                    newGrid[currentPoint.X, currentPoint.Y] = newGrid[neighborPoint.X, neighborPoint.Y];
+                    newGrid[neighborPoint.X, neighborPoint.Y] = temp;
+                    GridVisitedPair newPair = new GridVisitedPair(newGrid, neighborPoint);
+                    newPair.PreviousPoint = currentPoint;
+
+                    if (!attemptedFrontiers.Contains(StringRepresentation(newGrid)))
+                    {
+                        stack.Push(newPair);
+                        attemptedFrontiers.Add(StringRepresentation(newGrid));
+                    }
+
+                }
+
+            } while (stack.Count > 0);
+
+            Console.WriteLine("This puzzle is not solvable. Try again.");
 
         }
 
@@ -138,20 +214,26 @@ namespace UninformedSearch
         public string StringRepresentation(int[,] grid)
         {
             StringBuilder sb = new StringBuilder();
-
             for (int i = 0; i < grid.GetLength(0); i++)
             {
                 for (int j = 0; j < grid.GetLength(1); j++)
                 {
-
                     sb.Append(grid[i, j]);
-
                 }
-
             }
-
             return sb.ToString();
         }
+
+        public string StringRepresentation(int[] goal)
+        {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < goal.Length; i++)
+            {
+                sb.Append(goal[i]);
+            }
+            return sb.ToString();
+        }
+
 
         // Checking for solvability by counting the number of inversions
         // A pair of numbers in the puzzle are inverted if the their values are in

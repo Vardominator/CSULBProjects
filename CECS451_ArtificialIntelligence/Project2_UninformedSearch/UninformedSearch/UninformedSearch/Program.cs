@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -95,9 +96,21 @@ namespace UninformedSearch
 
             Puzzle puzzle = new Puzzle(3);
             puzzle.GenerateRandomPuzzle();
-            
             puzzle.Goal = eightPuzzleGoal;
+
+            var stopwatch = new Stopwatch();
+
+            stopwatch.Start();
+            Console.WriteLine("Breadth first search: ");
             puzzle.BreadthFirstSearch();
+            stopwatch.Stop();
+            Console.WriteLine($"Time taken: {stopwatch.ElapsedMilliseconds} ms\n\n");
+
+            stopwatch.Start();
+            Console.WriteLine("Depth first search: ");
+            puzzle.DepthFirstSearch();
+            stopwatch.Stop();
+            Console.WriteLine($"Time taken: {stopwatch.ElapsedMilliseconds} ms\n\n");
 
         }
     }
