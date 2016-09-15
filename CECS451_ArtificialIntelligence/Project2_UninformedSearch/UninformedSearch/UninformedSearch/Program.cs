@@ -41,8 +41,64 @@ namespace UninformedSearch
             Tree<char> tree = new Tree<char>(root);
 
 
-            tree.BreadthFirstSearch(start, goal);
+            //tree.BreadthFirstSearch(start, goal);
             //tree.DepthFirstSearch(start, goal);
+
+            Random rand = new Random();
+
+            
+            int[] goalState = new int[9];
+            for (int z = 0; z < goalState.Length; z++)
+            {
+                goalState[z] = z;
+            }
+
+            
+            int[] numbers = new int[9];
+            for (int blah = 0; blah < numbers.Length; blah++) { numbers[blah] = goalState[blah]; }
+
+            //Shuffle
+            for (int z = 0; z < numbers.Length - 2; z++)
+            {
+                int x = rand.Next(z, numbers.Length);
+                int temp = numbers[z];
+                numbers[z] = numbers[x];
+                numbers[x] = temp;
+            }
+            
+            int[,] grid = new int[3, 3];
+            int[,] visited = new int[3, 3];
+
+            Point startPoint = new Point(0, 0);
+
+            int place = 0;
+
+            for (int row = 0; row < grid.GetLength(0); row++)
+            {
+                for (int col = 0; col < grid.GetLength(1); col++)
+                {
+                    grid[row, col] = numbers[place];
+
+                    if(numbers[place] == 0)
+                    {
+                        startPoint = new Point(row, col);
+                    }
+                    place++;
+                }
+            }
+
+
+            int[] eightPuzzleGoal = new int[9];
+            eightPuzzleGoal[0] = 1; eightPuzzleGoal[1] = 2; eightPuzzleGoal[2] = 3;
+            eightPuzzleGoal[3] = 8; eightPuzzleGoal[4] = 0; eightPuzzleGoal[5] = 4;
+            eightPuzzleGoal[6] = 7; eightPuzzleGoal[7] = 6; eightPuzzleGoal[8] = 5;
+
+            Puzzle puzzle = new Puzzle(3);
+            puzzle.GenerateRandomPuzzle();
+            
+            puzzle.Goal = eightPuzzleGoal;
+            puzzle.BreadthFirstSearch();
+
         }
     }
 }
