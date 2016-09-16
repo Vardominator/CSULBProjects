@@ -41,57 +41,15 @@ namespace UninformedSearch
 
             Tree<char> tree = new Tree<char>(root);
 
-
             //tree.BreadthFirstSearch(start, goal);
-            tree.DepthFirstSearch(start, goal);
+            //tree.DepthFirstSearch(start, goal);
 
-            Random rand = new Random();
 
-            
-            int[] goalState = new int[9];
-            for (int z = 0; z < goalState.Length; z++)
-            {
-                goalState[z] = z;
-            }
-
-            
-            int[] numbers = new int[9];
-            for (int blah = 0; blah < numbers.Length; blah++) { numbers[blah] = goalState[blah]; }
-
-            //Shuffle
-            for (int z = 0; z < numbers.Length - 2; z++)
-            {
-                int x = rand.Next(z, numbers.Length);
-                int temp = numbers[z];
-                numbers[z] = numbers[x];
-                numbers[x] = temp;
-            }
-            
-            int[,] grid = new int[3, 3];
-            int[,] visited = new int[3, 3];
-
-            Point startPoint = new Point(0, 0);
-
-            int place = 0;
-
-            for (int row = 0; row < grid.GetLength(0); row++)
-            {
-                for (int col = 0; col < grid.GetLength(1); col++)
-                {
-                    grid[row, col] = numbers[place];
-
-                    if(numbers[place] == 0)
-                    {
-                        startPoint = new Point(row, col);
-                    }
-                    place++;
-                }
-            }
 
             int[,] InitialGrid = new int[3, 3];
-            InitialGrid[0, 0] = 6; InitialGrid[0, 1] = 3; InitialGrid[0, 2] = 5;
-            InitialGrid[1, 0] = 1; InitialGrid[1, 1] = 0; InitialGrid[1, 2] = 4;
-            InitialGrid[2, 0] = 7; InitialGrid[2, 1] = 2; InitialGrid[2, 2] = 8;
+            InitialGrid[0, 0] = 1; InitialGrid[0, 1] = 2; InitialGrid[0, 2] = 3;
+            InitialGrid[1, 0] = 4; InitialGrid[1, 1] = 5; InitialGrid[1, 2] = 6;
+            InitialGrid[2, 0] = 7; InitialGrid[2, 1] = 8; InitialGrid[2, 2] = 0;
 
             int[,] eightPuzzleGoal = new int[3, 3];
             eightPuzzleGoal[0, 0] = 1; eightPuzzleGoal[0, 1] = 2; eightPuzzleGoal[0, 2] = 3;
@@ -100,20 +58,20 @@ namespace UninformedSearch
 
             Puzzle puzzle = new Puzzle(InitialGrid, eightPuzzleGoal);
 
-            //// Check computation times
-            //var stopwatch = new Stopwatch();
+            // Check computation times
+            var stopwatch = new Stopwatch();
 
-            //stopwatch.Start();
-            //Console.WriteLine("Breadth first search: ");
-            //puzzle.BreadthFirstSearch();
-            //stopwatch.Stop();
-            //Console.WriteLine($"Time taken: {stopwatch.ElapsedMilliseconds} ms\n\n");
+            stopwatch.Start();
+            Console.WriteLine("Breadth first search: ");
+            puzzle.BreadthFirstSearch();
+            stopwatch.Stop();
+            Console.WriteLine($"Time taken: {stopwatch.ElapsedMilliseconds} ms\n\n");
 
-            //stopwatch.Start();
-            //Console.WriteLine("Depth first search: ");
-            //puzzle.DepthFirstSearch();
-            //stopwatch.Stop();
-            //Console.WriteLine($"Time taken: {stopwatch.ElapsedMilliseconds} ms\n\n");
+            stopwatch.Start();
+            Console.WriteLine("Depth first search: ");
+            puzzle.DepthFirstSearch();
+            stopwatch.Stop();
+            Console.WriteLine($"Time taken: {stopwatch.ElapsedMilliseconds} ms\n\n");
 
         }
     }

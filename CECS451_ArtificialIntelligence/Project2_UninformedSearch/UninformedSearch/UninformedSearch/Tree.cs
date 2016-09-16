@@ -31,16 +31,22 @@ namespace UninformedSearch
 
         public void DepthFirstSearch(Node<T> start, Node<T> goal)
         {
-
-
+            
             OpenedNodes.Add(start);
+
             Console.Write($"open = {Print(OpenedNodes)}; ");
             Console.WriteLine($"closed = {Print(ClosedNodes)}");
 
             foreach (Node<T> successor in start.Successors)
             {
-
-                DepthFirstSearch(successor, goal);
+                if (successor != goal)
+                {
+                    DepthFirstSearch(successor, goal);
+                }
+                else
+                {
+                    Console.WriteLine("hoorah: " + successor.Value);
+                }
             }
 
             OpenedNodes.RemoveAt(OpenedNodes.Count - 1);
@@ -52,11 +58,7 @@ namespace UninformedSearch
 
             Console.Write($"open = {Print(OpenedNodes)}; ");
             Console.WriteLine($"closed = {Print(ClosedNodes)}");
-
-
-           
-                
-
+            
         }
 
         public void BreadthFirstSearch(Node<T> start, Node<T> goal)
