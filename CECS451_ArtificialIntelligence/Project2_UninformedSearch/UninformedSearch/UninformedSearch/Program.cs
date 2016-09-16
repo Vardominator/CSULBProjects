@@ -43,7 +43,7 @@ namespace UninformedSearch
 
 
             //tree.BreadthFirstSearch(start, goal);
-            //tree.DepthFirstSearch(start, goal);
+            tree.DepthFirstSearch(start, goal);
 
             Random rand = new Random();
 
@@ -89,9 +89,9 @@ namespace UninformedSearch
             }
 
             int[,] InitialGrid = new int[3, 3];
-            InitialGrid[0, 0] = 8; InitialGrid[0, 1] = 3; InitialGrid[0, 2] = 2;
-            InitialGrid[1, 0] = 1; InitialGrid[1, 1] = 6; InitialGrid[1, 2] = 4;
-            InitialGrid[2, 0] = 7; InitialGrid[2, 1] = 0; InitialGrid[2, 2] = 5;
+            InitialGrid[0, 0] = 6; InitialGrid[0, 1] = 3; InitialGrid[0, 2] = 5;
+            InitialGrid[1, 0] = 1; InitialGrid[1, 1] = 0; InitialGrid[1, 2] = 4;
+            InitialGrid[2, 0] = 7; InitialGrid[2, 1] = 2; InitialGrid[2, 2] = 8;
 
             int[,] eightPuzzleGoal = new int[3, 3];
             eightPuzzleGoal[0, 0] = 1; eightPuzzleGoal[0, 1] = 2; eightPuzzleGoal[0, 2] = 3;
@@ -100,20 +100,20 @@ namespace UninformedSearch
 
             Puzzle puzzle = new Puzzle(InitialGrid, eightPuzzleGoal);
 
-            // Check computation times
-            var stopwatch = new Stopwatch();
+            //// Check computation times
+            //var stopwatch = new Stopwatch();
 
-            stopwatch.Start();
-            Console.WriteLine("Breadth first search: ");
-            puzzle.BreadthFirstSearch();
-            stopwatch.Stop();
-            Console.WriteLine($"Time taken: {stopwatch.ElapsedMilliseconds} ms\n\n");
+            //stopwatch.Start();
+            //Console.WriteLine("Breadth first search: ");
+            //puzzle.BreadthFirstSearch();
+            //stopwatch.Stop();
+            //Console.WriteLine($"Time taken: {stopwatch.ElapsedMilliseconds} ms\n\n");
 
-            stopwatch.Start();
-            Console.WriteLine("Depth first search: ");
-            puzzle.DepthFirstSearch();
-            stopwatch.Stop();
-            Console.WriteLine($"Time taken: {stopwatch.ElapsedMilliseconds} ms\n\n");
+            //stopwatch.Start();
+            //Console.WriteLine("Depth first search: ");
+            //puzzle.DepthFirstSearch();
+            //stopwatch.Stop();
+            //Console.WriteLine($"Time taken: {stopwatch.ElapsedMilliseconds} ms\n\n");
 
         }
     }
