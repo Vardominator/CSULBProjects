@@ -101,6 +101,7 @@ namespace UninformedSearch
 
             while (stack.Count > 0)
             {
+                //asdf
 
                 numberOfAttempts++;
 
