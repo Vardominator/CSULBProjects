@@ -88,16 +88,19 @@ namespace UninformedSearch
                 }
             }
 
+            int[,] InitialGrid = new int[3, 3];
+            InitialGrid[0, 0] = 8; InitialGrid[0, 1] = 3; InitialGrid[0, 2] = 2;
+            InitialGrid[1, 0] = 1; InitialGrid[1, 1] = 6; InitialGrid[1, 2] = 4;
+            InitialGrid[2, 0] = 7; InitialGrid[2, 1] = 0; InitialGrid[2, 2] = 5;
 
-            int[] eightPuzzleGoal = new int[9];
-            eightPuzzleGoal[0] = 1; eightPuzzleGoal[1] = 2; eightPuzzleGoal[2] = 3;
-            eightPuzzleGoal[3] = 8; eightPuzzleGoal[4] = 0; eightPuzzleGoal[5] = 4;
-            eightPuzzleGoal[6] = 7; eightPuzzleGoal[7] = 6; eightPuzzleGoal[8] = 5;
+            int[,] eightPuzzleGoal = new int[3, 3];
+            eightPuzzleGoal[0, 0] = 1; eightPuzzleGoal[0, 1] = 2; eightPuzzleGoal[0, 2] = 3;
+            eightPuzzleGoal[1, 0] = 8; eightPuzzleGoal[1, 1] = 0; eightPuzzleGoal[1, 2] = 4;
+            eightPuzzleGoal[2, 0] = 7; eightPuzzleGoal[2, 1] = 6; eightPuzzleGoal[2, 2] = 5;
 
-            Puzzle puzzle = new Puzzle(3);
-            puzzle.GenerateRandomPuzzle();
-            puzzle.Goal = eightPuzzleGoal;
+            Puzzle puzzle = new Puzzle(InitialGrid, eightPuzzleGoal);
 
+            // Check computation times
             var stopwatch = new Stopwatch();
 
             stopwatch.Start();

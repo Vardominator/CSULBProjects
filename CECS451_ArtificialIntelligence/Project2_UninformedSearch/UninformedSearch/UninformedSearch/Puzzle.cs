@@ -11,99 +11,38 @@ namespace UninformedSearch
 
         public int Dimension { get; set; }
 
-        public int[] Goal;
+        public int[,] Goal;
         public int[,] InitialGrid;
-        public bool[,] InitialVisited;
         public Point InitialZeroPoint;
 
-        
-
-        public Puzzle(int dimension)
+        public Puzzle(int[,] initialGrid, int[,] goal)
         {
-            Dimension = dimension;
-            Goal = new int[dimension * dimension];
-            InitialGrid = new int[dimension, dimension];
-            InitialVisited = new bool[dimension, dimension];
-            GenerateGoal();
-            
+            Dimension = initialGrid.GetLength(0);
+            InitialGrid = initialGrid;
+            Goal = goal;
         }
-
-        public void GenerateGoal()
-        {
-            for (int z = 0; z < Goal.Length; z++)
-            {
-                Goal[z] = z;
-            }
-        }
-
-        public void GenerateRandomPuzzle()
-        {
-
-            int[] numbers = new int[Dimension * Dimension];
-            for (int blah = 0; blah < numbers.Length; blah++)
-            {
-                numbers[blah] = Goal[blah];
-            }
-
-            //Shuffle
-            Random rand = new Random();
-            for (int z = 0; z < numbers.Length - 2; z++)
-            {
-                int x = rand.Next(z, numbers.Length);
-                int temp = numbers[z];
-                numbers[z] = numbers[x];
-                numbers[x] = temp;
-            }
-
-            int place = 0;
-
-            for (int row = 0; row < InitialGrid.GetLength(0); row++)
-            {
-                for (int col = 0; col < InitialGrid.GetLength(1); col++)
-                {
-                    InitialGrid[row, col] = numbers[place];
-                    place++;
-
-                    // Set initial zero point (the point that moves around the grid)
-                    if (InitialGrid[row, col] == 0)
-                    {
-                        InitialZeroPoint = new Point(row, col);
-                    }
-                }
-            }
-
-        }
-        
 
         public void BreadthFirstSearch()
         {
 
             PrintGrid(InitialGrid);
 
-            if (!Solvable(InitialGrid))
-            {
-                Console.WriteLine("This puzzle is not solvable. Try again.");
-                return;
-            }
-
             HashSet<string> attemptedFrontiers = new HashSet<string>();
+            Queue<PuzzleGrid> stack = new Queue<PuzzleGrid>();
+            PuzzleGrid initialPair = new PuzzleGrid(InitialGrid, InitialZeroPoint);
 
-            Queue<GridVisitedPair> queue = new Queue<GridVisitedPair>();
-
-            GridVisitedPair initialPair = new GridVisitedPair(InitialGrid, InitialZeroPoint);
-            queue.Enqueue(initialPair);
-
+            stack.Enqueue(initialPair);
             attemptedFrontiers.Add(StringRepresentation(InitialGrid));
 
             int numberOfAttempts = 0;
             string goalString = StringRepresentation(Goal);
 
-            do
+            while (stack.Count > 0)
             {
 
                 numberOfAttempts++;
 
-                GridVisitedPair currentPair = queue.Dequeue();
+                PuzzleGrid currentPair = stack.Dequeue();
                 Point currentPoint = currentPair.ZeroPoint;
 
                 string currentGridString = StringRepresentation(currentPair.Grid);
@@ -122,23 +61,25 @@ namespace UninformedSearch
                     int[,] newGrid = new int[Dimension, Dimension];
                     Array.Copy(currentPair.Grid, newGrid, Dimension * Dimension);
 
+                    // Perform "swapping"
                     int temp = newGrid[currentPoint.X, currentPoint.Y];
                     newGrid[currentPoint.X, currentPoint.Y] = newGrid[neighborPoint.X, neighborPoint.Y];
                     newGrid[neighborPoint.X, neighborPoint.Y] = temp;
-                    GridVisitedPair newPair = new GridVisitedPair(newGrid, neighborPoint);
-                    newPair.PreviousPoint = currentPoint;
+
+                    // Create new grid 
+                    PuzzleGrid newPair = new PuzzleGrid(newGrid, neighborPoint);
 
                     if (!attemptedFrontiers.Contains(StringRepresentation(newGrid)))
                     {
-                        queue.Enqueue(newPair);
+                        stack.Enqueue(newPair);
                         attemptedFrontiers.Add(StringRepresentation(newGrid));
                     }
 
                 }
 
-            } while (queue.Count > 0);
+            }
 
-            Console.WriteLine("This puzzle is not solvable. Try again.");
+            Console.WriteLine($"\nMaximum number of attempts reach: {numberOfAttempts}");
 
         }
 
@@ -148,30 +89,22 @@ namespace UninformedSearch
 
             PrintGrid(InitialGrid);
 
-            if (!Solvable(InitialGrid))
-            {
-                Console.WriteLine("This puzzle is not solvable. Try again.");
-                return;
-            }
-
             HashSet<string> attemptedFrontiers = new HashSet<string>();
+            Stack<PuzzleGrid> stack = new Stack<PuzzleGrid>();
+            PuzzleGrid initialPair = new PuzzleGrid(InitialGrid, InitialZeroPoint);
 
-            Stack<GridVisitedPair> stack = new Stack<GridVisitedPair>();
-
-            GridVisitedPair initialPair = new GridVisitedPair(InitialGrid, InitialZeroPoint);
             stack.Push(initialPair);
-
             attemptedFrontiers.Add(StringRepresentation(InitialGrid));
 
             int numberOfAttempts = 0;
             string goalString = StringRepresentation(Goal);
 
-            do
+            while (stack.Count > 0)
             {
 
                 numberOfAttempts++;
 
-                GridVisitedPair currentPair = stack.Pop();
+                PuzzleGrid currentPair = stack.Pop();
                 Point currentPoint = currentPair.ZeroPoint;
 
                 string currentGridString = StringRepresentation(currentPair.Grid);
@@ -190,11 +123,13 @@ namespace UninformedSearch
                     int[,] newGrid = new int[Dimension, Dimension];
                     Array.Copy(currentPair.Grid, newGrid, Dimension * Dimension);
 
+                    // Perform "swapping"
                     int temp = newGrid[currentPoint.X, currentPoint.Y];
                     newGrid[currentPoint.X, currentPoint.Y] = newGrid[neighborPoint.X, neighborPoint.Y];
                     newGrid[neighborPoint.X, neighborPoint.Y] = temp;
-                    GridVisitedPair newPair = new GridVisitedPair(newGrid, neighborPoint);
-                    newPair.PreviousPoint = currentPoint;
+
+                    // Create new grid 
+                    PuzzleGrid newPair = new PuzzleGrid(newGrid, neighborPoint);
 
                     if (!attemptedFrontiers.Contains(StringRepresentation(newGrid)))
                     {
@@ -204,9 +139,9 @@ namespace UninformedSearch
 
                 }
 
-            } while (stack.Count > 0);
+            }
 
-            Console.WriteLine("This puzzle is not solvable. Try again.");
+            Console.WriteLine($"\nMaximum number of attempts reach: {numberOfAttempts}");
 
         }
 
@@ -220,16 +155,6 @@ namespace UninformedSearch
                 {
                     sb.Append(grid[i, j]);
                 }
-            }
-            return sb.ToString();
-        }
-
-        public string StringRepresentation(int[] goal)
-        {
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < goal.Length; i++)
-            {
-                sb.Append(goal[i]);
             }
             return sb.ToString();
         }
