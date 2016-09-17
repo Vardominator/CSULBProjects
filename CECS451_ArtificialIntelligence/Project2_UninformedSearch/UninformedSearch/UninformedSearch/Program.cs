@@ -47,9 +47,9 @@ namespace UninformedSearch
 
 
             int[,] InitialGrid = new int[3, 3];
-            InitialGrid[0, 0] = 1; InitialGrid[0, 1] = 2; InitialGrid[0, 2] = 3;
-            InitialGrid[1, 0] = 4; InitialGrid[1, 1] = 5; InitialGrid[1, 2] = 6;
-            InitialGrid[2, 0] = 7; InitialGrid[2, 1] = 8; InitialGrid[2, 2] = 0;
+            InitialGrid[0, 0] = 1; InitialGrid[0, 1] = 2; InitialGrid[0, 2] = 4;
+            InitialGrid[1, 0] = 3; InitialGrid[1, 1] = 6; InitialGrid[1, 2] = 0;
+            InitialGrid[2, 0] = 8; InitialGrid[2, 1] = 5; InitialGrid[2, 2] = 7;
 
             int[,] eightPuzzleGoal = new int[3, 3];
             eightPuzzleGoal[0, 0] = 1; eightPuzzleGoal[0, 1] = 2; eightPuzzleGoal[0, 2] = 3;
