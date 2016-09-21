@@ -85,8 +85,7 @@ namespace Project1
                 }
                 catch (OverflowException exc)
                 {
-                    Console.WriteLine($"Maximum n reached: {n}");
-                    
+                    Console.WriteLine($"Maximum n reached
                 }
             }
 
