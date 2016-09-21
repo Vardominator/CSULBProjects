@@ -7,10 +7,14 @@
 static void *child(void *ignored)
 {
 
+  int totalTime = 0;
+
   while(1)
   {
-    printf("child thread sleeping...\n");
+    printf("child thread sleeping...");
+    printf("%d slept\n", totalTime);
     sleep(5);
+    totalTime += 5;
   } 
 
   return NULL;
