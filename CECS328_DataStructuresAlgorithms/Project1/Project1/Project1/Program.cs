@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -74,22 +76,40 @@ namespace Project1
             // Considering that we are using 32-bit integers, there is a limitation on how large n can be
             //  I will throw an exception to indicate when the resulting integer overflows
 
-            int n = 1;
+            //int n = 1;
 
-            while (true)
-            {
-                int result = 0;
-                try
-                {
+            //while (true)
+            //{
+            //    int result = 0;
+            //    try
+            //    {
 
-                }
-                catch (OverflowException exc)
-                {
-                    Console.WriteLine($"Maximum n reached
-                }
-            }
+            //    }
+            //    catch (OverflowException exc)
+            //    {
+            //        Console.WriteLine($"Maximum n reached
+            //    }
+            //}
 
             #endregion
+
+            
+
+            Stopwatch sp = new Stopwatch();
+            sp.Reset();
+            sp.Start();
+            Console.WriteLine(SnAlt(50)); // 0 millseconds
+            sp.Stop();
+            Console.WriteLine(sp.ElapsedMilliseconds);
+
+
+            Console.WriteLine();
+
+            sp.Reset();
+            sp.Start();
+            Console.WriteLine(SnAlt2(50)); // indefinite hahah
+            sp.Stop();
+            Console.WriteLine(sp.ElapsedMilliseconds);
 
         }
 
