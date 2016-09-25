@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -28,11 +29,6 @@ namespace Project1
             #endregion
 
             #region Problem 2: Write a non-recursive program to calculate S(n)
-            int first = 0;
-            int second = 1;
-
-            int sum = 1;
-
             Console.WriteLine("Problem 2 Result: \n");
             Console.WriteLine($"Fibonacci Table for n = {sampleN}:");
             Console.WriteLine("f(0) = 0");
@@ -40,106 +36,122 @@ namespace Project1
             
             for (int i = 2; i <= sampleN; i++)
             {
-                int currentFib = first + second;
-                Console.WriteLine($"f({i}) = {currentFib}");
-                sum += currentFib;
-                first = second;
-                second = currentFib;
+                Console.WriteLine($"f({i}) = {Fibonacci(i)}");
             }
             Console.WriteLine("------------");
-            Console.WriteLine($"Sum: {sum}\n\n");
+            Console.WriteLine($"Sum: {NonRecursiveSn(sampleN)}\n\n");
             #endregion
 
             #region Problem 4: Third possible way to sum Fibonnaci
-            Console.WriteLine($"Problem 4: {SnAlt(20)}\n\n");
+            Console.WriteLine($"Problem 4: {GrimaldiSum(20)}\n\n");
             #endregion
 
-            #region Problem 5: Calculate S for n = 10, 20, 30; Calculate f for n = 12, 22, 32
-
+            #region Problem 5: Calculate S for 10, 20, 30; Calculate f for 12, 22, 32
             Console.WriteLine($"Problem 5 results: \n");
-            Console.WriteLine($"S(n) for n = 10 => {SnAlt(10)}");
-            Console.WriteLine($"S(n) for n = 20 => {SnAlt(20)}");
-            Console.WriteLine($"S(n) for n = 30 => {SnAlt(30)}\n");
+            Console.WriteLine($"S(n) for n = 10 => {GrimaldiSum(10)}");
+            Console.WriteLine($"S(n) for n = 20 => {GrimaldiSum(20)}");
+            Console.WriteLine($"S(n) for n = 30 => {GrimaldiSum(30)}\n");
             Console.WriteLine($"f(n) for n = 12 => {Fibonacci(12)}");
             Console.WriteLine($"f(n) for n = 22 => {Fibonacci(22)}");
             Console.WriteLine($"f(n) for n = 32 => {Fibonacci(32)}\n");
-
             #endregion
 
             #region Problem 7: Fourth way to calcualte S(n)
-
             Console.WriteLine($"Problem 7: {SnAlt2(20)}\n\n");
-
             #endregion
 
             #region Problem 8: Largest n that can be computed successfully by each program
-            // Considering that we are using 32-bit integers, there is a limitation on how large n can be
-            //  I will throw an exception to indicate when the resulting integer overflows
 
-            //int n = 1;
+            //StreamWriter streamWriter = new StreamWriter("fibonacciRunningTimes.txt");
+            //streamWriter.WriteLine("Input\tSum\tSNoRec\tGrim\tSumAlt");
+            //Stopwatch stopWatch = new Stopwatch();
+            //StringBuilder currentLine = new StringBuilder();
 
-            //while (true)
+            //for (int n = 1; n <= 50; n++)
             //{
-            //    int result = 0;
-            //    try
-            //    {
 
-            //    }
-            //    catch (OverflowException exc)
-            //    {
-            //        Console.WriteLine($"Maximum n reached
-            //    }
+            //    currentLine.Append($"{n}\t");
+
+            //    stopWatch.Start();
+            //    long value1 = Sn(n);
+            //    currentLine.Append($"{stopWatch.ElapsedMilliseconds / 1000}\t");
+            //    stopWatch.Stop();
+
+            //    stopWatch.Start();
+            //    long value2 = NonRecursiveSn(n);
+            //    currentLine.Append($"{stopWatch.ElapsedMilliseconds / 1000}\t");
+            //    stopWatch.Stop();
+
+            //    stopWatch.Start();
+            //    long value3 = GrimaldiSum(n);
+            //    currentLine.Append($"{stopWatch.ElapsedMilliseconds / 1000}\t");
+            //    stopWatch.Stop();
+
+            //    stopWatch.Start();
+            //    long value4 = SnAlt2(n);
+            //    currentLine.Append($"{stopWatch.ElapsedMilliseconds / 1000}");
+            //    stopWatch.Stop();
+
+            //    streamWriter.WriteLine(currentLine.ToString());
+            //    Console.WriteLine($"Running...{n}");
+            //    currentLine.Clear();
+                
             //}
 
+            //streamWriter.Close();
+            
             #endregion
-
             
 
-            Stopwatch sp = new Stopwatch();
-            sp.Reset();
-            sp.Start();
-            Console.WriteLine(SnAlt(50)); // 0 millseconds
-            sp.Stop();
-            Console.WriteLine(sp.ElapsedMilliseconds);
-
-
-            Console.WriteLine();
-
-            sp.Reset();
-            sp.Start();
-            Console.WriteLine(SnAlt2(50)); // indefinite hahah
-            sp.Stop();
-            Console.WriteLine(sp.ElapsedMilliseconds);
-
         }
-
-        public static int SnAlt2(int number)
+         
+        public static long SnAlt2(long number)
         {
             return Fibonacci(number + 2) - 1;
         }
 
-        public static int SnAlt(int number)
+        public static long GrimaldiSum(long number)
         {
-            int result = 0;
+            long result = 0;
 
-            for (int i = 0; i <= number; i++)
+            for (int i = 1; i <= number; i++)
             {
-                result += Gn(i);
+                result += Grimaldi(i);
             }
 
             return result;
 
         }
-        public static int Gn(int k)
+        public static long Grimaldi(long k)
         {
-            return (int)((1 / Math.Sqrt(5)) * (Math.Pow(((1 + Math.Sqrt(5)) / 2), k) - Math.Pow(((1 - Math.Sqrt(5)) / 2), k)));
+            return (long)((1 / Math.Sqrt(5)) * (Math.Pow(((1 + Math.Sqrt(5)) / 2), k) - Math.Pow(((1 - Math.Sqrt(5)) / 2), k)));
         }
 
-        public static int Sn(int number)
+        public static long NonRecursiveSn(long number)
         {
-            int result = 0;
 
-            for (int i = 0; i <= number; i++)
+            long previous = 1;
+            long previous2 = 1;
+            long current = 0;
+            long sum = 2;
+
+            for (int i = 3; i <= number; i++)
+            {
+                current = previous + previous2;
+                sum += current;
+                previous = previous2;
+                previous2 = current;
+            }
+
+            return sum;
+
+        }
+
+        public static long Sn(long number)
+        {
+            long result = 0;
+
+            for (int i = 1; i <= number; i++)
             {
                 result += Fibonacci(i);
             }
@@ -147,15 +159,15 @@ namespace Project1
             return result;
         }
        
-        public static int Fibonacci(int number)
+        public static long Fibonacci(long number)
         {
 
-            if(number == 0)
+            if(number <= 2)
             {
-                return 0;
-            }
-            else if(number == 1)
-            {
+                if(number == 0)
+                {
+                    return 0;
+                }
                 return 1;
             }
 
