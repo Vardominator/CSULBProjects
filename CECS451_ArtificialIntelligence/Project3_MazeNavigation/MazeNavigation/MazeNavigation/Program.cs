@@ -42,10 +42,10 @@ namespace MazeNavigation
 
             Maze maze = new Maze(nodes, A);
             
-            maze.BreadthFirstSearch(A, M);
+            //maze.BreadthFirstSearch(A, M);
 
-            Console.WriteLine();
-            
+            //Console.WriteLine();
+
             List<Node> aStarPath = maze.AStarSearch(A, M);
             PrintList(aStarPath);
             Console.WriteLine();
