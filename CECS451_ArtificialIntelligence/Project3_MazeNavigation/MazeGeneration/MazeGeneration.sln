@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeGeneration", "MazeGeneration\MazeGeneration\MazeGeneration.csproj", "{6633EB1F-54B3-49D5-8660-4AABCA824E6A}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "MazeGenerationContent", "MazeGeneration\MazeGenerationContent\MazeGenerationContent.contentproj", "{1330C4D0-39E9-4CEA-B095-54BA04056C42}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6633EB1F-54B3-49D5-8660-4AABCA824E6A}.Debug|x86.ActiveCfg = Debug|x86
+		{6633EB1F-54B3-49D5-8660-4AABCA824E6A}.Debug|x86.Build.0 = Debug|x86
+		{6633EB1F-54B3-49D5-8660-4AABCA824E6A}.Release|x86.ActiveCfg = Release|x86
+		{6633EB1F-54B3-49D5-8660-4AABCA824E6A}.Release|x86.Build.0 = Release|x86
+		{1330C4D0-39E9-4CEA-B095-54BA04056C42}.Debug|x86.ActiveCfg = Debug|x86
+		{1330C4D0-39E9-4CEA-B095-54BA04056C42}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
