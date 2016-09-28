@@ -42,7 +42,6 @@ namespace MazeNavigation
 
             Maze maze = new Maze(nodes, A);
             
-
             maze.BreadthFirstSearch(A, M);
 
             Console.WriteLine();
