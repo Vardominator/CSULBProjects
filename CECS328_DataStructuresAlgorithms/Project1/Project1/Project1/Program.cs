@@ -62,46 +62,43 @@ namespace Project1
 
             #region Problem 8: Largest n that can be computed successfully by each program
 
-            //StreamWriter streamWriter = new StreamWriter("fibonacciRunningTimes.txt");
-            //streamWriter.WriteLine("Input\tSum\tSNoRec\tGrim\tSumAlt");
-            //Stopwatch stopWatch = new Stopwatch();
-            //StringBuilder currentLine = new StringBuilder();
+            StreamWriter streamWriter = new StreamWriter(@"F:\GitHub\CSULBProjects\CECS328_DataStructuresAlgorithms\Project1\fibonacciRunningTimes.csv");
+            Stopwatch stopWatch = new Stopwatch();
+            StringBuilder currentLine = new StringBuilder();
 
-            //for (int n = 1; n <= 50; n++)
-            //{
+            for (int n = 1; n <= 40; n++)
+            {
 
-            //    currentLine.Append($"{n}\t");
+                stopWatch.Start();
+                long value1 = Sn(n);
+                currentLine.Append($"{stopWatch.ElapsedTicks},");
+                stopWatch.Reset();
 
-            //    stopWatch.Start();
-            //    long value1 = Sn(n);
-            //    currentLine.Append($"{stopWatch.ElapsedMilliseconds / 1000}\t");
-            //    stopWatch.Stop();
+                stopWatch.Start();
+                long value2 = NonRecursiveSn(n);
+                currentLine.Append($"{stopWatch.ElapsedTicks},");
+                stopWatch.Reset();
 
-            //    stopWatch.Start();
-            //    long value2 = NonRecursiveSn(n);
-            //    currentLine.Append($"{stopWatch.ElapsedMilliseconds / 1000}\t");
-            //    stopWatch.Stop();
+                stopWatch.Start();
+                long value3 = GrimaldiSum(n);
+                currentLine.Append($"{stopWatch.ElapsedTicks},");
+                stopWatch.Reset();
 
-            //    stopWatch.Start();
-            //    long value3 = GrimaldiSum(n);
-            //    currentLine.Append($"{stopWatch.ElapsedMilliseconds / 1000}\t");
-            //    stopWatch.Stop();
+                stopWatch.Start();
+                long value4 = SnAlt2(n);
+                currentLine.Append($"{stopWatch.ElapsedTicks}");
+                stopWatch.Reset();
 
-            //    stopWatch.Start();
-            //    long value4 = SnAlt2(n);
-            //    currentLine.Append($"{stopWatch.ElapsedMilliseconds / 1000}");
-            //    stopWatch.Stop();
+                streamWriter.WriteLine(currentLine.ToString());
+                Console.WriteLine($"Running...{n}");
+                currentLine.Clear();
 
-            //    streamWriter.WriteLine(currentLine.ToString());
-            //    Console.WriteLine($"Running...{n}");
-            //    currentLine.Clear();
-                
-            //}
+            }
 
-            //streamWriter.Close();
-            
+            streamWriter.Close();
+
             #endregion
-            
+
 
         }
          
