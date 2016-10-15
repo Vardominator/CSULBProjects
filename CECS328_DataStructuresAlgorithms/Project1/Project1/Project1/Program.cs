@@ -62,7 +62,7 @@ namespace Project1
 
             #region Problem 8: Largest n that can be computed successfully by each program
 
-            StreamWriter streamWriter = new StreamWriter(@"F:\GitHub\CSULBProjects\CECS328_DataStructuresAlgorithms\Project1\fibonacciRunningTimes.csv");
+            StreamWriter streamWriter = new StreamWriter(@"C:\users\barse\Desktop\GitHub\CSULBProjects\CECS328_DataStructuresAlgorithms\Project1\fibonacciRunningTimes.csv");
             Stopwatch stopWatch = new Stopwatch();
             StringBuilder currentLine = new StringBuilder();
 
