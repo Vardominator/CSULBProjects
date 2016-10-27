@@ -10,7 +10,8 @@ int main(int argc, char *argv[])
 
     int fd;
 
-    fd = open("myfile.txt", O_CREAT | O_WRONGLY, 0600);
+    //fd = open("myfile.txt", O_CREAT | O_WRONGLY, 0600);
+    open("myfile.txt");
 
     if(fd == -1)
     {
