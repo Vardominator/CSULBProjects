@@ -7,14 +7,21 @@
 
 #define SHSIZE 100
 
+typedef int bool;
+#define true 1
+#define false 0
+
+
 int main(char argc, char *argv[])
 {
 
     int shmid;
-    int count = 5;
+    int width = 10, height = 10;
+    int total = width * height;
+    int i = 0, j = 0;
+    int position = 0;
+
     key_t key = 9876;
-    int *readArray;
-    int i;
 
     shmid = shmget(key, SHSIZE, 0666);
 
@@ -25,35 +32,52 @@ int main(char argc, char *argv[])
     }
 
     // attach to shared memory segment
-    readArray = (int * )shmat(shmid, NULL, 0);
+    int *row = shmat(shmid, NULL, 0);
 
-    if(readArray < (int *) NULL)
+    if(row < (int *) NULL)
     {
         perror("shmat");
         return 1;
     }
 
+    
+    // move fish left and right
+    bool right = true;
+    int currentposition = width/2;
+    int lastPosition = currentposition - 1;
+
     while(1)
     {
 
         sleep(1);
-        printf("\033[2J");
-        printf("\033[1;1H");
 
-        for(i = 0; i < count; i++)
+        currentposition += right ? 1: -1;
+        
+        row[height * (height - 1) + currentposition] = 1;
+        
+        if(right == true)
         {
-            printf("%d---", readArray[i]);
+            row[height * (height - 1) + (currentposition - 1)] = 0;
+        }
+        else
+        {
+            row[height * (height - 1) + (currentposition + 1)] = 0;
         }
 
-        printf("\n");
+        if(currentposition == width - 1 && right == true)
+        {
+            right = false;
+        }
+        else if(currentposition == 0 && right == false)
+        {
+            right = true;
+        }
+
+        lastPosition = currentposition;
 
     }
-
-    printf("\nRead from memory successful--\n");
-
-    //*readArray = 99;
-
-    shmdt(readArray);
+    
+    shmdt(row);
 
     return 0;
 }

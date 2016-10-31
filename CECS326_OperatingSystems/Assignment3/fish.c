@@ -71,6 +71,7 @@ int main(char argc, char *argv[])
 
     while(1)
     {
+        
         printf("Waiting to be read...\n");
         sleep(1);
         printf("\033[2J");

@@ -7,11 +7,13 @@
 
 #define SHSIZE 100
 
-int main(char argc, char *argv[])
+void dropPellet(int *row, int width, int height, int randomColumn);
+
+int main(char argc, char * argv[])
 {
 
     int shmid;
-    int width = 5, height = 5;
+    int width = 10, height = 10;
     int total = width * height;
     int i = 0, j = 0;
     int position = 0;
@@ -34,26 +36,55 @@ int main(char argc, char *argv[])
         return 1;
     }
 
-    while(1)
-    {
-        sleep(1);
-        printf("\033[2J");
-        printf("\033[1;1H");
+    // while(1)
+    // {
+    //     sleep(1);
+    //     printf("\033[2J");
+    //     printf("\033[1;1H");
 
-        for(i = 0; i < width; i++)
-        {
-            for(j = 0; j < height; j++)
-            {
-                // map 2d array to 1d
+    //     for(i = 0; i < width; i++)
+    //     {
+    //         for(j = 0; j < height; j++)
+    //         {
+    //             // map 2d array to 1d
                 
-                printf("%d  ", row[i * width + j]);
-            }
-            printf("\n");
+    //             printf("%d  ", row[i * width + j]);
+    //         }
+    //         printf("\n");
+    //     }
+
+    // }
+
+    dropPellet(row, width, height, 5);
+    //printf(argv[1]);
+    shmdt(row);
+
+    return 0;
+}
+
+void dropPellet(int *row, int width, int height, int randomColumn)
+{
+
+    int i = 0, j = 0;
+
+    for(j = 0; j < height; j++)
+    {
+
+        sleep(1);
+        // map 2d array to 1d
+        row[height * j + randomColumn] = 2;
+
+        if(j > 0)
+        {
+            row[height * (j - 1) + randomColumn] = 0;
         }
 
     }
 
-    shmdt(row);
+    
 
-    return 0;
+    sleep(1);
+
+    row[height * (height - 1) + randomColumn] = 0;
+
 }
