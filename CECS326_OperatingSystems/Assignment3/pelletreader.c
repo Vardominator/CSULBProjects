@@ -55,8 +55,9 @@ int main(char argc, char * argv[])
 
     // }
 
-    dropPellet(row, width, height, 5);
-    //printf(argv[1]);
+    int column = atoi(argv[1]);
+
+    dropPellet(row, width, height, column);
     shmdt(row);
 
     return 0;
@@ -69,7 +70,7 @@ void dropPellet(int *row, int width, int height, int randomColumn)
 
     for(j = 0; j < height; j++)
     {
-
+        
         sleep(1);
         // map 2d array to 1d
         row[height * j + randomColumn] = 2;
@@ -84,7 +85,5 @@ void dropPellet(int *row, int width, int height, int randomColumn)
     
 
     sleep(1);
-
-    row[height * (height - 1) + randomColumn] = 0;
 
 }

@@ -58,24 +58,41 @@ int main (char argc, char *argv[])
     // Initialize array
     initializeSwimMill(row, width, height);
 
-    // Launch pellet process with random position
-    int returnIDPellet = fork();
-    if(returnIDPellet == 0)
-    {
-        execv("pelletreader", argv);
-    }
-
     int returnIDFish = fork();
+
     if(returnIDFish == 0)
     {
         execv("fishreader", argv);
+    }
+
+    // Launch pellet process with random position
+    
+
+    // TODO: Run this loop in a separate thread
+    for(int i = 0; i < 5; i++)
+    {
+
+        int returnIDPellet = fork();
+        char numberArgBuffer[20];
+        snprintf(numberArgBuffer, 20, "%d", rand() % width);
+        char *argsToPellet[3];
+        argsToPellet[0] = "coordinator";
+        argsToPellet[1] = numberArgBuffer;
+        argsToPellet[2] = NULL;
+
+        if(returnIDPellet == 0)
+        {
+            execv("pelletreader", argsToPellet);
+        }
+
+        sleep(2);
+
     }
 
     sleep(1);
 
     // print the swim mill
     showSwimMill(row, width, height);
-
 
     shmdt(row);
 
@@ -111,8 +128,6 @@ void showSwimMill(int * row, int width, int height)
         {
             for(j = 0; j < height; j++)
             {
-                // map 2d array to 1d
-                
                 printf("%d  ", row[i * width + j]);
             }
             printf("\n");

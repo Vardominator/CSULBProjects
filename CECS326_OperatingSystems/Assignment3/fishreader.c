@@ -11,6 +11,9 @@ typedef int bool;
 #define true 1
 #define false 0
 
+void swimBackAndForth(int *row, int width, int height);
+
+int findPellet(int *row, int width, int height);
 
 int main(char argc, char *argv[])
 {
@@ -40,8 +43,67 @@ int main(char argc, char *argv[])
         return 1;
     }
 
-    
-    // move fish left and right
+
+    // place fish in the middle
+    int currentPosition = 0;
+    row[height * (height - 1)] = 1;
+
+    while(1)
+    {
+
+        sleep(1);
+
+        // check if there is a closer pellet
+        int pelletPosition = findPellet(row, width, height);
+        int pelletColumn = pelletPosition % height;
+
+        if(currentPosition < pelletColumn)
+        {
+            row[height * (height - 1) + currentPosition] = 0;
+            currentPosition += 1;
+        }
+        else if (currentPosition > pelletColumn)
+        {
+            row[height * (height - 1) + currentPosition] = 0;
+            currentPosition -= 1;
+        }
+
+        //row[height * (height - 1) + currentPosition] = 1;
+
+    }
+
+    shmdt(row);
+
+    return 0;
+}
+
+
+int findPellet(int *row, int width, int height)
+{
+
+    while(1)
+    {
+
+        int i = 0, j = 0;
+
+        for(i = width - 1; i >= 0; i--)
+        {
+            for(j = height; j >= 0; j--)
+            {
+                if(row[i * width + j] == 2)
+                {
+                    return i * width + j;
+                }
+            }
+        }
+    }
+
+}
+
+void swimBackAndForth(int *row, int width, int height)
+{
+    // Testing only; fish just swims left and right
+
     bool right = true;
     int currentposition = width/2;
     int lastPosition = currentposition - 1;
@@ -76,8 +138,5 @@ int main(char argc, char *argv[])
         lastPosition = currentposition;
 
     }
-    
-    shmdt(row);
 
-    return 0;
 }
