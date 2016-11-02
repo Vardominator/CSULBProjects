@@ -11,6 +11,9 @@
 #include <time.h>
 #include <unistd.h>
 #include <pthread.h>
+#include <time.h>
+
+#include <signal.h>
 
 #define SHSIZE 100
 
@@ -20,6 +23,10 @@ typedef int bool;
 
 void initializeSwimMill(int *row, int width, int height);
 void showSwimMill(int *row, int width, int height);
+
+static volatile int keepRunning = 1;
+static double totalTime = 0;
+void intHandler(int dummy);
 
 // Function for pellet creation thread
 void *createPellets();
@@ -61,9 +68,6 @@ int main (char argc, char *argv[])
         return 1;
     }
 
-    // Initialize array
-    initializeSwimMill(row, width, height);
-
     int returnIDFish = fork();
 
     if(returnIDFish == 0)
@@ -71,33 +75,46 @@ int main (char argc, char *argv[])
         execv("fishreader", argv);
     }
 
-    sleep(1);
+    // Initialize array
+    initializeSwimMill(row, width, height);
 
     int ret1;
     ret1 = pthread_create(&pelletThread, NULL, createPellets, NULL);
 
-    showSwimMill(row, width, height);
-    
-    pthread_join(pelletThread, NULL);
-
-    sleep(1);
-
     // print the swim mill
-    showSwimMill(row, width, height);
+    while(keepRunning && totalTime < 31)
+    {
+        signal(SIGINT, intHandler);    
+        showSwimMill(row, width, height);    
+        sleep(1);
+        totalTime += 1;
+    }
 
-    shmdt(row);
+    pthread_cancel(pelletThread);
+
+    //shmdt(row);
+
+    shmctl(shmid, IPC_RMID, NULL);
 
     return 0;
 }
 
+void intHandler(int dummy)
+{
+    keepRunning = 0;
+}
+
 void *createPellets()
 {
+
     int time = 0;
     int width = 10;
 
-    while(time != 30)
-    {
+    char scanLine[1024];
 
+    while(1)
+    {
+        
         if(time % 3 == 0)
         {
 
@@ -116,11 +133,12 @@ void *createPellets()
 
         }
 
-        sleep(1);
+        
         time += 1;
+        sleep(1);
 
-        printf("Time elapsed: %d\n", time);
     }
+
 }
 
 void initializeSwimMill(int * row, int width, int height)
@@ -142,20 +160,17 @@ void showSwimMill(int * row, int width, int height)
 
     int i = 0, j = 0;
 
-    while(1)
+    printf("\033[2J");
+    printf("\033[1;1H");
+
+    for(i = 0; i < width; i++)
     {
-        sleep(1);
-        printf("\033[2J");
-        printf("\033[1;1H");
-
-        for(i = 0; i < width; i++)
+        for(j = 0; j < height; j++)
         {
-            for(j = 0; j < height; j++)
-            {
-                printf("%d  ", row[i * width + j]);
-            }
-            printf("\n");
+            printf("%d  ", row[i * width + j]);
         }
-
+        printf("\n");
     }
+    printf("%f\n", totalTime);
+
 }

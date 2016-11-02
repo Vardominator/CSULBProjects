@@ -68,6 +68,11 @@ int main(char argc, char *argv[])
             currentPosition -= 1;
         }
 
+        if(row[height * (height - 1) + currentPosition] == 2)
+        {
+            //printf("Pellet eaten\n");
+        }
+        
         row[height * (height - 1) + currentPosition] = 1;
 
     }
@@ -99,6 +104,7 @@ int findPellet(int *row, int width, int height)
     }
 
 }
+
 
 void swimBackAndForth(int *row, int width, int height)
 {

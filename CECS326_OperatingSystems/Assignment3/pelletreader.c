@@ -49,7 +49,7 @@ void dropPellet(int *row, int width, int height, int randomColumn)
 
     int i = 0, j = 0;
 
-    for(j = 0; j <= height; j++)
+    for(j = 0; j < height; j++)
     {
         
         sleep(1);
@@ -63,14 +63,10 @@ void dropPellet(int *row, int width, int height, int randomColumn)
 
     }
 
-    // if(row[height * (j - 1) + randomColumn] == 0)
-    // {
-    //     row[height * (j - 1) + randomColumn] = 0;
-    // }
-    // else
-    // {
-    //     row[height * (j - 1) + randomColumn] = 1;
-    // }
+    if(row[height * j + randomColumn] == 1)
+    {
+        printf("Pellet eaten\n");
+    }
     
     sleep(1);
 
