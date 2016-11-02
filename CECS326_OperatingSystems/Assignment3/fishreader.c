@@ -68,7 +68,7 @@ int main(char argc, char *argv[])
             currentPosition -= 1;
         }
 
-        //row[height * (height - 1) + currentPosition] = 1;
+        row[height * (height - 1) + currentPosition] = 1;
 
     }
 

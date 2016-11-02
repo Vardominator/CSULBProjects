@@ -10,6 +10,7 @@
 #include <pthread.h>
 #include <time.h>
 #include <unistd.h>
+#include <pthread.h>
 
 #define SHSIZE 100
 
@@ -19,6 +20,9 @@ typedef int bool;
 
 void initializeSwimMill(int *row, int width, int height);
 void showSwimMill(int *row, int width, int height);
+
+// Function for pellet creation thread
+void *createPellets();
 
 int main (char argc, char *argv[])
 {
@@ -30,6 +34,8 @@ int main (char argc, char *argv[])
     int total = width * height;
     int i = 0, j = 0;
     int position = 0;
+
+    pthread_t pelletThread;
 
     // random position for the pellet
     int r = rand() % width;
@@ -65,29 +71,14 @@ int main (char argc, char *argv[])
         execv("fishreader", argv);
     }
 
-    // Launch pellet process with random position
+    sleep(1);
+
+    int ret1;
+    ret1 = pthread_create(&pelletThread, NULL, createPellets, NULL);
+
+    showSwimMill(row, width, height);
     
-
-    // TODO: Run this loop in a separate thread
-    for(int i = 0; i < 5; i++)
-    {
-
-        int returnIDPellet = fork();
-        char numberArgBuffer[20];
-        snprintf(numberArgBuffer, 20, "%d", rand() % width);
-        char *argsToPellet[3];
-        argsToPellet[0] = "coordinator";
-        argsToPellet[1] = numberArgBuffer;
-        argsToPellet[2] = NULL;
-
-        if(returnIDPellet == 0)
-        {
-            execv("pelletreader", argsToPellet);
-        }
-
-        sleep(2);
-
-    }
+    pthread_join(pelletThread, NULL);
 
     sleep(1);
 
@@ -97,6 +88,39 @@ int main (char argc, char *argv[])
     shmdt(row);
 
     return 0;
+}
+
+void *createPellets()
+{
+    int time = 0;
+    int width = 10;
+
+    while(time != 30)
+    {
+
+        if(time % 3 == 0)
+        {
+
+            int returnIDPellet = fork();
+            char numberArgBuffer[20];
+            snprintf(numberArgBuffer, 20, "%d", rand() % width);
+            char *argsToPellet[3];
+            argsToPellet[0] = "coordinator";
+            argsToPellet[1] = numberArgBuffer;
+            argsToPellet[2] = NULL;
+
+            if(returnIDPellet == 0)
+            {
+                execv("pelletreader", argsToPellet);
+            }
+
+        }
+
+        sleep(1);
+        time += 1;
+
+        printf("Time elapsed: %d\n", time);
+    }
 }
 
 void initializeSwimMill(int * row, int width, int height)
