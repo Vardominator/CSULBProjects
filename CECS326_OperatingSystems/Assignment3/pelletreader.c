@@ -9,6 +9,8 @@
 
 void dropPellet(int *row, int width, int height, int randomColumn, int randomRow);
 
+static int PelletId = 0;
+
 int main(char argc, char * argv[])
 {
 
@@ -21,6 +23,7 @@ int main(char argc, char * argv[])
     key_t key = 9876;
 
     shmid = shmget(key, SHSIZE, 0666);
+    PelletId = shmid;
 
     if(shmid < 0)
     {
@@ -51,11 +54,17 @@ void dropPellet(int *row, int width, int height, int randomColumn, int randomRow
 
     int i = 0, j = randomRow;
 
-    for(j; j < height; j++)
+    for(j; j <= height; j++)
     {
         
         sleep(1);
         // map 2d array to 1d
+
+        if(row[height * j + randomColumn] == 1)
+        {
+            printf("Pellet eaten. Pellet ID: %d\n", PelletId);
+        }
+
         row[height * j + randomColumn] = 2;
 
         if(j > 0)
@@ -65,10 +74,7 @@ void dropPellet(int *row, int width, int height, int randomColumn, int randomRow
 
     }
 
-    if(row[height * j + randomColumn] == 1)
-    {
-        printf("Pellet eaten\n");
-    }
+
     
     sleep(1);
 

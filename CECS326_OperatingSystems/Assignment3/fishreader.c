@@ -67,11 +67,6 @@ int main(char argc, char *argv[])
             row[height * (height - 1) + currentPosition] = 0;
             currentPosition -= 1;
         }
-
-        if(row[height * (height - 1) + currentPosition] == 2)
-        {
-            //printf("Pellet eaten\n");
-        }
         
         row[height * (height - 1) + currentPosition] = 1;
 

@@ -89,7 +89,8 @@ int main (char argc, char *argv[])
 
     pthread_cancel(pelletThread);
 
-    //shmdt(row);
+    // TODO: DESTORY SHARED MEMORY SEGMENT
+    // TODO: MANUALLY CANCEL FISH AND PELLET
 
     shmctl(shmid, IPC_RMID, NULL);
 
@@ -133,7 +134,6 @@ void *createPellets()
 
         }
 
-        
         time += 1;
         sleep(1);
 
