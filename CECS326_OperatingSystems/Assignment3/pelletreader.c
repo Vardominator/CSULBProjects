@@ -7,7 +7,7 @@
 
 #define SHSIZE 100
 
-void dropPellet(int *row, int width, int height, int randomColumn);
+void dropPellet(int *row, int width, int height, int randomColumn, int randomRow);
 
 int main(char argc, char * argv[])
 {
@@ -37,19 +37,21 @@ int main(char argc, char * argv[])
     }
 
     int column = atoi(argv[1]);
+    int rowPel = atoi(argv[2]);
 
-    dropPellet(row, width, height, column);
+    dropPellet(row, width, height, column, rowPel);
+    
     shmdt(row);
 
     return 0;
 }
 
-void dropPellet(int *row, int width, int height, int randomColumn)
+void dropPellet(int *row, int width, int height, int randomColumn, int randomRow)
 {
 
-    int i = 0, j = 0;
+    int i = 0, j = randomRow;
 
-    for(j = 0; j < height; j++)
+    for(j; j < height; j++)
     {
         
         sleep(1);

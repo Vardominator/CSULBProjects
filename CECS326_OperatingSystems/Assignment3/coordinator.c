@@ -1,6 +1,3 @@
-// fork() makes a duplicate of the current process
-// execv() replaces the duplicated parent process with a new process
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -108,7 +105,7 @@ void *createPellets()
 {
 
     int time = 0;
-    int width = 10;
+    int width = 10, height = 10;
 
     char scanLine[1024];
 
@@ -119,12 +116,15 @@ void *createPellets()
         {
 
             int returnIDPellet = fork();
-            char numberArgBuffer[20];
-            snprintf(numberArgBuffer, 20, "%d", rand() % width);
-            char *argsToPellet[3];
+            char randWidthBuffer[20];
+            char randHeightBuffer[20];
+            snprintf(randWidthBuffer, 20, "%d", rand() % width);    // random width
+            snprintf(randHeightBuffer, 20, "%d", rand() % height);   // random height
+            char *argsToPellet[4];
             argsToPellet[0] = "coordinator";
-            argsToPellet[1] = numberArgBuffer;
-            argsToPellet[2] = NULL;
+            argsToPellet[1] = randWidthBuffer;
+            argsToPellet[2] = randHeightBuffer;
+            argsToPellet[3] = NULL;
 
             if(returnIDPellet == 0)
             {
@@ -171,6 +171,6 @@ void showSwimMill(int * row, int width, int height)
         }
         printf("\n");
     }
-    printf("%f\n", totalTime);
+    printf("\nTime elapsed: %d\n", (int)totalTime);
 
 }
