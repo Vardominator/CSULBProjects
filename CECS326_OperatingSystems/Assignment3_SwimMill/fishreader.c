@@ -4,6 +4,7 @@
 #include <sys/types.h>
 #include <sys/ipc.h>
 #include <sys/shm.h>
+#include <unistd.h>
 
 #define SHSIZE 100
 
@@ -45,13 +46,13 @@ int main(char argc, char *argv[])
 
 
     // place fish in the middle
-    int currentPosition = 0;
-    row[height * (height - 1)] = 1;
+    int currentPosition = 5;
+    row[height * (height - 1) + currentPosition] = 1;
 
     while(1)
     {
 
-        sleep(1);
+        usleep(1000 * 500);
 
         // check if there is a closer pellet
         int pelletPosition = findPellet(row, width, height);

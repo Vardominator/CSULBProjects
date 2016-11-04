@@ -70,6 +70,7 @@ int main (char argc, char *argv[])
     if(returnIDFish == 0)
     {
         execv("fishreader", argv);
+        _exit(0);
     }
 
     // Initialize array
@@ -79,19 +80,20 @@ int main (char argc, char *argv[])
     ret1 = pthread_create(&pelletThread, NULL, createPellets, NULL);
 
     // print the swim mill
-    while(keepRunning && totalTime < 31)
+    while(keepRunning && totalTime != 61)
     {
         signal(SIGINT, intHandler);    
         showSwimMill(row, width, height);    
-        sleep(1);
+        //sleep(1);
+        usleep(1000 * 500);
         totalTime += 1;
     }
 
     pthread_cancel(pelletThread);
 
-    // TODO: DESTORY SHARED MEMORY SEGMENT
     // TODO: MANUALLY CANCEL FISH AND PELLET
 
+    // Destroy shared memory segment
     shmctl(shmid, IPC_RMID, NULL);
 
     return 0;
@@ -113,14 +115,14 @@ void *createPellets()
     while(1)
     {
         
-        if(time % 3 == 0)
+        if(time % 2 == 0)
         {
 
             int returnIDPellet = fork();
             char randWidthBuffer[20];
             char randHeightBuffer[20];
-            snprintf(randWidthBuffer, 20, "%d", rand() % width);    // random width
-            snprintf(randHeightBuffer, 20, "%d", rand() % height);   // random height
+            snprintf(randWidthBuffer, 20, "%d", rand() % width + 1);     // random width
+            snprintf(randHeightBuffer, 20, "%d", rand() % height + 1);   // random height
             char *argsToPellet[4];
             argsToPellet[0] = "coordinator";
             argsToPellet[1] = randWidthBuffer;
@@ -130,6 +132,7 @@ void *createPellets()
             if(returnIDPellet == 0)
             {
                 execv("pelletreader", argsToPellet);
+                _exit(0);
             }
 
         }
@@ -171,6 +174,6 @@ void showSwimMill(int * row, int width, int height)
         }
         printf("\n");
     }
-    printf("\nTime elapsed: %d\n", (int)totalTime);
+    printf("\nTime elapsed: %d\n", (int)(totalTime/2));
 
 }

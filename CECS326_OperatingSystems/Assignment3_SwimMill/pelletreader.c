@@ -4,6 +4,7 @@
 #include <sys/types.h>
 #include <sys/ipc.h>
 #include <sys/shm.h>
+#include <unistd.h>
 
 #define SHSIZE 100
 
@@ -43,7 +44,7 @@ int main(char argc, char * argv[])
     int rowPel = atoi(argv[2]);
 
     dropPellet(row, width, height, column, rowPel);
-    
+
     shmdt(row);
 
     return 0;
@@ -57,7 +58,8 @@ void dropPellet(int *row, int width, int height, int randomColumn, int randomRow
     for(j; j <= height; j++)
     {
         
-        sleep(1);
+        //sleep(1);
+        usleep(1000 * 500);
         // map 2d array to 1d
 
         if(row[height * j + randomColumn] == 1)
@@ -74,8 +76,6 @@ void dropPellet(int *row, int width, int height, int randomColumn, int randomRow
 
     }
 
-
-    
-    sleep(1);
+    usleep(1000 * 500);
 
 }
