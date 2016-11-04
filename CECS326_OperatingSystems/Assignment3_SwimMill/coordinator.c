@@ -28,6 +28,8 @@ void intHandler(int dummy);
 // Function for pellet creation thread
 void *createPellets();
 
+static FILE *eatenIdsFile;
+
 int main (char argc, char *argv[])
 {
 
@@ -51,6 +53,10 @@ int main (char argc, char *argv[])
     // create memory segment
     key_t key = 9876;
     shmid = shmget(key, SHSIZE, IPC_CREAT | 0666);
+
+    eatenIdsFile = fopen("eatenPellets.txt", "w");
+    fclose(eatenIdsFile);
+
     if(shmid < 0)
     {
         perror("shmget");
@@ -95,6 +101,23 @@ int main (char argc, char *argv[])
 
     // Destroy shared memory segment
     shmctl(shmid, IPC_RMID, NULL);
+
+
+    // Read pellet ids that were eaten
+    printf("\n\n\nThe following pellets were eaten:\n\n");
+
+    FILE * pelletIdsFile = fopen("eatenPellets.txt", "r");
+    char *line = NULL;
+    ssize_t read;
+    size_t len = 0;
+
+    while((read = getline(&line, &len, pelletIdsFile)) != -1)
+    {
+        printf("%s", line);
+    }
+
+    fclose(pelletIdsFile);
+
 
     return 0;
 }

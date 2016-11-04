@@ -10,7 +10,8 @@
 
 void dropPellet(int *row, int width, int height, int randomColumn, int randomRow);
 
-static int PelletId = 0;
+static int pelletId = 0;
+static FILE *eatenIdsFile;
 
 int main(char argc, char * argv[])
 {
@@ -24,7 +25,8 @@ int main(char argc, char * argv[])
     key_t key = 9876;
 
     shmid = shmget(key, SHSIZE, 0666);
-    PelletId = shmid;
+    pelletId = shmid;
+    eatenIdsFile = fopen("eatenPellets.txt", "a");
 
     if(shmid < 0)
     {
@@ -47,6 +49,8 @@ int main(char argc, char * argv[])
 
     shmdt(row);
 
+    fclose(eatenIdsFile);
+
     return 0;
 }
 
@@ -64,7 +68,8 @@ void dropPellet(int *row, int width, int height, int randomColumn, int randomRow
 
         if(row[height * j + randomColumn] == 1)
         {
-            printf("Pellet eaten. Pellet ID: %d\n", PelletId);
+            printf("Pellet eaten. Pellet ID: %d\n", pelletId);
+            fprintf(eatenIdsFile, "%d\n", pelletId);
         }
 
         row[height * j + randomColumn] = 2;
