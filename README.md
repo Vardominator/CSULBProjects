@@ -5,3 +5,7 @@
 * [Conversational Agent](CECS451_ArtificialIntelligence/Project1_ConversationalAgent/)
 * [Uninformed Search](CECS451_ArtificialIntelligence/Project2_UninformedSearch/)
 * [EEG Mapping with Machine Learning](https://github.com/Vardominator/BCI-EEGMapping)
+
+## CECS 326: Operating Systems
+* [Threads](CECS326_OperatingSystems/Project1_Threads/)
+* [Swim Mill(Concurrent Processes & Shared Memory)](CECS326_OperatingSystems/Project2_SwimMill/)
