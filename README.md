@@ -4,3 +4,4 @@
 ## CECS 451: Artificial Intelligence
 * [Conversational Agent](CECS451_ArtificialIntelligence/Project1_ConversationalAgent/)
 * [Uninformed Search](CECS451_ArtificialIntelligence/Project2_UninformedSearch/)
+* [EEG Mapping with Machine Learning](https://github.com/Vardominator/BCI-EEGMapping)
