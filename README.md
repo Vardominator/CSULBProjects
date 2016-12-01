@@ -8,4 +8,4 @@
 
 ## CECS 326: Operating Systems
 * [Threads](CECS326_OperatingSystems/Project1_Threads/)
-* [Swim Mill(Concurrent Processes & Shared Memory)](CECS326_OperatingSystems/Project2_SwimMill/)
+* [Swim Mill (Concurrent Processes & Shared Memory)](CECS326_OperatingSystems/Project2_SwimMill/)
