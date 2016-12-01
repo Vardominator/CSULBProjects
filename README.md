@@ -4,6 +4,8 @@
 ## CECS 451: Artificial Intelligence
 * [Conversational Agent](CECS451_ArtificialIntelligence/Project1_ConversationalAgent/)
 * [Uninformed Search](CECS451_ArtificialIntelligence/Project2_UninformedSearch/)
+* [Maze Navigation](CECS451_ArtificialIntelligence/Project3_MazeNavigation/)
+* [CSP Analysis](CECS451_ArtificialIntelligence/Project4_CSPAnalysis/)
 * [EEG Mapping with Machine Learning](https://github.com/Vardominator/BCI-EEGMapping)
 
 ## CECS 326: Operating Systems
