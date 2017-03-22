@@ -118,18 +118,29 @@ degree 	 cost 	 accuracy
 
 #EXERCISE 4
 high_cost <- c(10^5)
-degrees <- c(1:10)
-high_cost_results <- best_svm(cars_df, alpha, degree=degrees, cost=high_cost)
+degree <- 1
 
 # KEEP RUNNING BEST_SVM UNTIL ACCURACY IS 100%
-while(high_cost_results[[3]] != 1){
-  high_cost_results <- best_svm(cars_df, alpha, degree=degrees, cost=high_cost)
+repeat{
+  
+  model <- svm(Class~., data=cars_df, kernel="polynomial", 
+                          degree=degree, type="C-classification", cost=high_cost)
+  
+  predictions <- predict(model, cars_df[,-length(cars_df)])
+  accuracy <- mean(predictions==cars_df[,length(cars_df)])
+  
+  if(accuracy==1){
+    break
+  }
+  
+  degree <- degree + 1
+  
 }
-cat("Least degree with 100% accuracy: ", high_cost_results[[1]], "\n")
+cat("Least degree with 100% accuracy: ", degree, "\n")
 
 #EXERCISE 4 RESULT
 "
-Least degree with 100% accuracy:  3
+Least degree with 100% accuracy:  2
 "
 
 
@@ -193,6 +204,7 @@ cost = c(10^(-1:4))
 # EXERCISE 6
 model_cross <- best.svm.cross(cancer_df, cost, degree, 10)
 print(model_cross)
+
 # EXERCISE 6 RESULTS & DISCUSSION
 "
 model_cross gives the following results for d, c, and accuracy:
