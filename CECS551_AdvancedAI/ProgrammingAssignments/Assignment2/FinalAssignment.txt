@@ -1,0 +1,45 @@
+> # SET DIRECTORY
+> setwd('/home/varderes/Desktop/GitHub/CSULBProjects/CECS551_AdvancedAI/ProgrammingAss
+ignments/Assignment2')
+>
+> # READ DATASET INTO DATAFRAME
+> df <- read.csv('Exercise-4.csv')
+>
+> # IMPORT LEARNER FUNCTIONS
+> source('simple_learner.R')
+> source('perceptron_learner.R')
+>
+> # EXERCISE 1: PARAMETERS OF SIMPLE LEARNER DECISION SURFACE
+> SL_params <- simple_learner(df)
+> SL_params
+       X1        X2        X3        X4        X5
+ 11.87250  20.36818 -16.60066  27.87608 -22.29279 -70.39144
+>
+> # EXERCISE 2: PARAMETERS OF PERCEPTRON LEARNER DECISION SURFACE
+> PL_params <- perceptron_learner(df)
+> PL_params
+       X1        X2        X3        X4        X5
+ 302.7260  599.3977 -563.1866  710.2523 -722.0438    0.0000
+>
+> w_pl <- PL_params[-length(PL_params)]
+> b_pl <- PL_params[length(PL_params)]
+>
+> w_sl <- SL_params[-length(SL_params)]
+> b_sl <- SL_params[length(SL_params)]
+> 
+> # EXERCISE 3: CLASSIFY DATAPOINTS USING LEARNER PARAMETERS
+> classes_pl <- classify(df, w_pl, b_pl)
+> classes_sl <- classify(df, w_sl, b_sl)
+>
+> # ISOLATE CLASSES TO TEST FOR ACCURACY
+> y <- subset(df, select = c(length(df)))
+> 
+> # EXERCISE 4: SIMPLE LEARNER ACCURACY
+> sl_accuracy <- length(sl_truth[sl_truth==TRUE]) / 500
+> sl_accuracy
+[1] 0.906
+>
+> # EXERCISE 5: PERCEPTRON LEARNER ACCURACY
+> pl_accuracy <- length(pl_truth[pl_truth==TRUE]) / 500
+> pl_accuracy
+[1] 1
