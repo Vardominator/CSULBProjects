@@ -1,6 +1,10 @@
 # IMPORT LIBRARY
+#install.packages("e1071")
 library(e1071)
+#install.packages("ggplot2")
 library(ggplot2)
+#install.packages("data.tree")
+library(data.tree)
 
 abalone_df <- read.table("abalone.data", sep = ",", header = FALSE)
 colnames(abalone_df) <- c("Sex", "Length", "Diam", "Height", "Whole", "Shucked", "Viscera", "Shell", "Rings")
@@ -12,7 +16,7 @@ best_accuracy <- 0
 best_predictions <- data.frame()
 
 # For each combination perform: 5-fold cross validation and training accuracy from training over the entire data set
-accuracies_table <- data.frame("Degree" = integer(), "Cost" = integer(), "Accuracy" = numeric(), stringsAsFactors = FALSE)
+accuracies_table <- data.frame("Degree" = integer(), "Cost" = numeric(), "Accuracy" = numeric(), stringsAsFactors = FALSE)
 
 for (d in degrees) {
     for (c in costs) {
@@ -44,3 +48,29 @@ average_distance <- mean(class_distance)
 
 # provide a histogram that shows the frequency of how often a prediction is m rings away from the true number of rings
 hist(class_distances)
+
+
+binary_classifier_table <- data.frame("Description" = character(), "Dataset Size" = integer(), "Degree" = numeric(), "Cost" = numeric(), 
+                                      "Average CV Accuracy" = numeric(), "Best Accuracy" = numeric(), stringsAsFactors = FALSE)
+max_rings <- max(abalone_df$Rings)
+
+
+f1 <- list(c(0:9), c(10:max_rings))
+f2 <- list(c(0:7), c(8:9))
+f3 <- list(c(0:5), c(6:7))
+f4 <- list(c(8), c(9))
+f5 <- list(c(6), c(7))
+f6 <- list(c(10:11), c(12:max_rings))
+f7 <- list(c(12:13), c(14:max_rings))
+f8 <- list(c(10), c(11))
+f9 <- list(c(12), c(13))
+
+
+
+
+# exercise 2: best learning-parameter(BLP) with binary classifiers
+binary_classifier <- function(df, degrees, costs, negative_class, positive_class) {
+    # given the dataframe and bounds, degrees, and costs, will return
+    #   the size of the subset, degree, cost, average CV accuracy of the BLP combinations,
+    #   and the best accuracy
+}
