@@ -50,8 +50,6 @@ average_distance <- mean(class_distance)
 hist(class_distances)
 
 
-binary_classifier_table <- data.frame("Description" = character(), "Dataset Size" = integer(), "Degree" = numeric(), "Cost" = numeric(), 
-                                      "Average CV Accuracy" = numeric(), "Best Accuracy" = numeric(), stringsAsFactors = FALSE)
 max_rings <- max(abalone_df$Rings)
 
 
@@ -66,11 +64,40 @@ f8 <- list(c(10), c(11))
 f9 <- list(c(12), c(13))
 
 
+classifier_bounds <- list(f1, f2, f3, f4, f5, f6, f7, f8, f9)
 
+binary_classifier_table <- data.frame("Description" = character(), "Dataset Size" = integer(), "Degree" = numeric(), "Cost" = numeric(),
+                                      "Average CV Accuracy" = numeric(), "Best Accuracy" = numeric(), stringsAsFactors = FALSE)
+
+
+
+for (bound in classifier_bounds) {
+    binary_classifier_table[nrow(binary_classifier_table) + 1,] <- 
+        binary_classifier(abalone_df, degrees, costs, bound[[1]], bound[[2]])
+}
 
 # exercise 2: best learning-parameter(BLP) with binary classifiers
 binary_classifier <- function(df, degrees, costs, negative_class, positive_class) {
     # given the dataframe and bounds, degrees, and costs, will return
     #   the size of the subset, degree, cost, average CV accuracy of the BLP combinations,
     #   and the best accuracy
+
+
+    best_accuracy <- 0
+    best_d <- 0
+    best_c <- 0
+
+    for (d in degrees) {
+        for (c in costs) {
+
+            current_model <- svm(Rings ~ ., data = abalone_df, kernel = "polynomial", degree = d, type = "C-classification", cost = c, cross = cross_fold)
+
+            if (current_model$tot.accuracy > best_accuracy) {
+                best_accuracy <- current_model$tot.accuracy
+                best_d <- d
+                best_c <- c
+            }
+
+        }
+    }
 }
