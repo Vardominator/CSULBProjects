@@ -115,9 +115,12 @@ public class NaiveIndex {
 
       index.indexDirectory(currentWorkingPath);
       // index.printResults();
-
-      
-
+      Scanner scanner = new Scanner(System.in);
+      String userInput;
+      do{
+        System.out.print("Enter a term to search for: ");
+        userInput = scanner.nextLine();
+      }while(!userInput.equals("quit"));
    }
 
    // reads the file given by Path; adds each term from file to the dictionary
