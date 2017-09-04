@@ -104,6 +104,18 @@ public class NaiveIndex {
 
    }
 
+  public void printContainingChapters(String word){
+    int columnNumber = Arrays.binarySearch(mTermArray,word);
+
+    for(int i = 0; i < mFileArray.length; i++){
+      if(mIndex[i][columnNumber]){
+        System.out.print(mFileArray[i] + " ");
+      }
+    }
+    System.out.println();
+
+  }
+ 
    public static void main(String[] args) {
       // Example use: construct a NaiveIndex object, then use it to index all
       // *.txt files in a specified directory. Then print the results.
@@ -120,8 +132,16 @@ public class NaiveIndex {
       do{
         System.out.print("Enter a term to search for: ");
         userInput = scanner.nextLine();
+        index.printContainingChapters(userInput);
       }while(!userInput.equals("quit"));
    }
+
+
+
+
+
+
+
 
    // reads the file given by Path; adds each term from file to the dictionary
    private static void buildDictionary(Path file, HashSet<String> dictionary) {
