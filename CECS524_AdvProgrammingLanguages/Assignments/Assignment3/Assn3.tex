@@ -1,0 +1,84 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage{listings}
+\usepackage{comment} % enables the use of multi-line comments (\ifx \fi) 
+\usepackage{lipsum} %This package just generates Lorem Ipsum filler text. 
+\usepackage{fullpage} % changes the margin
+\usepackage[T1]{fontenc}
+\usepackage{kantlipsum}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage[breakable, theorems, skins]{tcolorbox}
+\tcbset{enhanced}
+
+
+\DeclareRobustCommand{\answer}[2][gray!15]{%
+\begin{tcolorbox}[   %% Adjust the following parameters at will.
+        breakable,
+        left=0pt,
+        right=0pt,
+        top=0pt,
+        bottom=0pt,
+        colback=#1,
+        colframe=#1,
+        width=\dimexpr\textwidth\relax, 
+        enlarge left by=0mm,
+        boxsep=5pt,
+        arc=0pt,outer arc=0pt,
+        ]
+        #2
+\end{tcolorbox}
+}
+
+
+\begin{document}
+%Header-Make sure you update this information!!!!
+\noindent
+\large\textbf{Assignment 3} \hfill \textbf{Varderes Barsegyan} \\
+\normalsize CECS 524 \hfill 016163470 \\
+Prof. Ju Cheol Moon
+
+\section*{\LARGE\textbf{Exercise 1}}
+Write regular expression to capture the hexadecimal foating-point values. A hexadecimal foating-point value has an optional fractional portion (beginning with a dot) and a mandatory exponent (beginning with P or p). There may be digits to the left of the dot, the right of the dot, or both, and the exponent itself is given in decimal
+(contains only the digits 0-9), with an optional leading + or - sign. A hexadecimal floating-point value may end with an optional F or f (indicating "float"-single precision) or L or l (indicating "long"-double precision).
+
+\subsection*{\Large{Exercise 1 Response}}
+\answer{
+To write a regular expression of a hexadecimal floating-point, we must first write the regular expressions for a hexadecimal digit. This is constructed with a non-zero digit, a decimal digit, and the required alphabetical characters. The regular expression of a non-zero digit is $nz\_digit=(1|...|9)$. We can use this to construct the expression for a decimal digit: $dec\_digit=(0|nz\_digit)$. We then combine this with the required characters to construct a hexadecimal digit: $hex\_digit=(dec\_digit|(a|...|f)|(A|...|F))$. \\\\
+Next, we need a way to represent any hexadecimal value. This can be done as follows: $hex=(0x|0X)hex\_digit^*hex\_digit$. Taking this a step further, a hexadecimal floating point would be $pre\_hex\_float=(0x|0X)hex\_digit^*(.hex\_digit|hex\_digit.|\epsilon)hex\_digit^*$. \\\\
+Finally, we want to be able to represent the hexadecimal floating-point values with a mandatory exponential integer, $int=dec\_digit\:dec\_digit^*$, preceded by $P$ or $p$, an optional leading $+$ or $-$, an optional $F$ or $f$, and an optional $L$ or $l$. To clarify the final expression $f\_suf=(f|F)$, $l\_suf=(l|L)$, and $suf=(f\_suf|l\_suf|\epsilon)$. Thus, the final result is: \\
+\begin{center}
+\textbf{$hex\_float=(0x|0X)\:hex\_digit^*\:(.hex\_digit|hex\_digit.|\epsilon)\:\:hex\_digit^*\:(p|P)\:(+|-|\epsilon)\:digit\:suf$}
+\end{center}
+}
+\section*{\LARGE\textbf{Exercise 2}}
+Write a Java, C++, and Python programs (without external library) that determines whether a given stream of characters is a hexadecimal floating-point value or not.
+
+\subsection*{\Large{Exercise 2 Response}}
+
+\subsubsection*{Python}
+\begin{lstlisting}[language=Python]
+import re
+import sys
+
+hex_dec_exp = ("0[xX](([0-9a-fA-F])*)(\.([0-9a-fA-F])*)?"
+               "(p|P)(\+|-|$)(\d\d*)((f|F)|(l|L)|$)")
+
+with open(sys.argv[1]) as f:
+    for value in f.readlines():
+        match = re.match(hex_dec_exp, value.strip())
+        if match:
+            print("Matched: {}".format(match.group(0)))
+        else:
+            print("Not Matched: {}".format(value.strip()))
+\end{lstlisting}
+
+\answer{
+\subsubsection*{Java}
+Answer \\
+}
+\answer{
+\subsubsection*{C++}
+Answer
+}
+
+
+\end{document}
