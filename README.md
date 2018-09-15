@@ -1,6 +1,8 @@
 # CSU Long Beach Programming Projects
 > The purpose of this repository is to showcase my academic projects while obtaining a master's degree in computer science from CSULB. The classes and the their corresponding projects are shown below, but a more detailed description of each is given in the corresponding directories.
 
+## CECS 524: Advanced Programming Languages
+
 ## CECS 529: Search Engine Technology
 * [Search Engine](https://github.com/Vardominator/search-engine)
 
