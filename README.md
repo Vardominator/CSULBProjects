@@ -1,7 +1,14 @@
 # CSU Long Beach Programming Projects
 > The purpose of this repository is to showcase my academic projects while obtaining a master's degree in computer science from CSULB. The classes and the their corresponding projects are shown below, but a more detailed description of each is given in the corresponding directories.
 
+## CECS 543: Advanced Software Engineering
+* [EcoSense](https://github.com/Vardominator/ecosense)
+
+## CECS 521: Database Architecture
+* [Spatial Databases]()
+
 ## CECS 524: Advanced Programming Languages
+* [Compartmentalized Garbage Collection Seminar](CECS524_AdvProgrammingLanguages/Seminar)
 
 ## CECS 529: Search Engine Technology
 * [Search Engine](https://github.com/Vardominator/search-engine)
