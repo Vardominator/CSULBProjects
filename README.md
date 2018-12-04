@@ -5,7 +5,7 @@
 * [EcoSense](https://github.com/Vardominator/ecosense)
 
 ## CECS 521: Database Architecture
-* [Spatial Databases](CECS521_DatabaseArchitecture/SpatialDatabases/)
+* [Spatial Databases](CSULBProjects/tree/master/CECS521_DatabaseArchitecture/SpatialDatabases/)
 
 ## CECS 524: Advanced Programming Languages
 * [Compartmentalized Garbage Collection Seminar](CECS524_AdvProgrammingLanguages/Seminar)
